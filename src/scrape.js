@@ -72,9 +72,9 @@ export const downloadVGMPFUrl = async (url) => {
   const dirName = makeDirName(gameTitle, gameInfo)
   const dirPath = `${process.cwd()}/${dirName}/`
 
-  console.log(`vgmpfdl: Saving to ${dirPath}`)
   console.log(makeGameTable(gameTitle, gameInfo).toString())
   console.log(makeTracksTable(tracks).toString())
+  console.log(`vgmpfdl: Saving to ${dirPath}`)
 
   // Start saving files.
   mkdirp(dirPath, (err) => {

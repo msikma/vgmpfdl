@@ -4,6 +4,14 @@ VGMPF has video game music music downloads, but usually doesn't provide full alb
 
 ## Usage
 
+Install globally:
+
+```
+npm i -g vgmpfdl
+```
+
+Then change directory to wherever you want to save the album, and type the following:
+
 ```
 vgmpfdl "url to vgmpf page"
 ```

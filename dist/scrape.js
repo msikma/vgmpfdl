@@ -106,9 +106,9 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             dirPath = process.cwd() + '/' + dirName + '/';
 
 
-            console.log('vgmpfdl: Saving to ' + dirPath);
             console.log((0, _util.makeGameTable)(gameTitle, gameInfo).toString());
             console.log((0, _util.makeTracksTable)(tracks).toString());
+            console.log('vgmpfdl: Saving to ' + dirPath);
 
             // Start saving files.
             (0, _mkdirp2.default)(dirPath, function (err) {
