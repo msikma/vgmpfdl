@@ -32,7 +32,7 @@ export const reportDownload = (dest) => {
 
 // Reports the destination directory.
 export const reportDestDir = (dir) => (
-  console.log(`vgmpfdl: Szaving to ${chalk.red(dir)}`)
+  console.log(`vgmpfdl: Saving to ${chalk.red(dir)}`)
 )
 
 /**

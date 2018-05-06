@@ -51,7 +51,7 @@ var reportDownload = exports.reportDownload = function reportDownload(dest) {
 
 // Reports the destination directory.
 var reportDestDir = exports.reportDestDir = function reportDestDir(dir) {
-  return console.log('vgmpfdl: Szaving to ' + _chalk2.default.red(dir));
+  return console.log('vgmpfdl: Saving to ' + _chalk2.default.red(dir));
 };
 
 /**
