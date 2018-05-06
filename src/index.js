@@ -31,7 +31,7 @@ export const run = async (args) => {
       exitCode = 1
     }
     else {
-      console.log(`ascr: error: ${err.stack}`)
+      console.log(`vgmpfdl: error: ${err.stack}`)
       exitCode = 1
     }
   }
