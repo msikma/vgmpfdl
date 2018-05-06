@@ -1,7 +1,7 @@
 {
   "name": "vgmpfdl",
   "description": "Downloads VGMPF (Video Game Music Preservation Foundation) albums",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "homepage": "https://github.com/msikma/vgmpfdl",
   "main": "src/index.js",
@@ -16,7 +16,6 @@
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-class-properties": "^6.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.1.0",
-    "babel-polyfill": "^6.1.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.1.0",
     "eslint": "^4.4.1",
@@ -28,6 +27,7 @@
   "dependencies": {
     "argparse": "^1.0.10",
     "chalk": "^2.3.1",
+    "babel-polyfill": "^6.1.0",
     "cheerio": "^1.0.0-rc.2",
     "cli-table2": "msikma/cli-table2",
     "mkdirp": "^0.5.1",

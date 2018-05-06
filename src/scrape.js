@@ -84,7 +84,7 @@ export const downloadVGMPFUrl = async (url) => {
     }
   })
 
-  // Download all tracks.
+  // Download all tracks. Let's be nice and do it one at a time.
   for (const track of tracks) {
     const ext = getExtension(track.url)
     const fn = makeFileName(track.trackN, track.title, ext)

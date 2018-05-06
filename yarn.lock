@@ -1980,8 +1980,8 @@ request@^2.83.0, request@^2.85.0:
     uuid "^3.1.0"
 
 requestAsBrowser@msikma/requestAsBrowser:
-  version "1.0.0"
-  resolved "https://codeload.github.com/msikma/requestAsBrowser/tar.gz/311709c7dcff4095aeba939ca6decc9ada778930"
+  version "1.1.0"
+  resolved "https://codeload.github.com/msikma/requestAsBrowser/tar.gz/33220ab172333047f28221009b40139759701380"
   dependencies:
     file-cookie-store msikma/file-cookie-store
     request "^2.83.0"

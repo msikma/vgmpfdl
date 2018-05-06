@@ -118,7 +118,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
               }
             });
 
-            // Download all tracks.
+            // Download all tracks. Let's be nice and do it one at a time.
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;

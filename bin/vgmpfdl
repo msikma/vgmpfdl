@@ -17,12 +17,12 @@ const args = { ...parsed, urls: parsed.url }
 // Fire up the main application.
 require('babel-polyfill')
 
-/* uncomment for testing from ./src
-*/
+/* Uncomment for testing from ./src
+
 require('babel-register')({
   "presets": ["env"],
   "plugins": ["transform-class-properties", "transform-object-rest-spread"]
 })
 require('../src/index').run(args)
-
-//require('../dist/index').run(args)
+*/
+require('../dist/index').run(args)
