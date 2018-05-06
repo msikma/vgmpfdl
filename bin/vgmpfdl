@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const ArgumentParser = require('argparse').ArgumentParser
+const HelpFormatter = require('argparse/lib/help/formatter')
+const package = require('../package.json')
+
+const parser = new ArgumentParser({
+  version: package.version,
+  addHelp: true,
+  description: package.description
+})
+parser.addArgument('url', { help: 'URL(s) to scrape and download files from.', nargs: '*', defaultValue: '' })
+const parsed = parser.parseArgs()
+const args = { ...parsed, urls: parsed.url }
+
+// Fire up the main application.
+require('babel-polyfill')
+
+/* uncomment for testing from ./src
+*/
+require('babel-register')({
+  "presets": ["env"],
+  "plugins": ["transform-class-properties", "transform-object-rest-spread"]
+})
+require('../src/index').run(args)
+
+//require('../dist/index').run(args)
