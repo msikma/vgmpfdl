@@ -30,6 +30,11 @@ export const reportDownload = (dest) => {
   console.log(`vgmpfdl: Downloaded file: ${chalk.red(destShort)}`)
 }
 
+// Reports the destination directory.
+export const reportDestDir = (dir) => (
+  console.log(`vgmpfdl: Szaving to ${chalk.red(dir)}`)
+)
+
 /**
  * Returns the name of the directory we'll download the files to.
  */

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.makeTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.makeTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
 
 var _sanitizeFilename = require('sanitize-filename');
 
@@ -47,6 +47,11 @@ var getExtension = exports.getExtension = function getExtension(url) {
 var reportDownload = exports.reportDownload = function reportDownload(dest) {
   var destShort = dest.split('/').pop();
   console.log('vgmpfdl: Downloaded file: ' + _chalk2.default.red(destShort));
+};
+
+// Reports the destination directory.
+var reportDestDir = exports.reportDestDir = function reportDestDir(dir) {
+  return console.log('vgmpfdl: Szaving to ' + _chalk2.default.red(dir));
 };
 
 /**

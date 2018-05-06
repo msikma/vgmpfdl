@@ -16,6 +16,7 @@ import {
   makeFileName,
   makeGameTable,
   makeTracksTable,
+  reportDestDir,
   reportDownload
 } from './util'
 
@@ -74,7 +75,7 @@ export const downloadVGMPFUrl = async (url) => {
 
   console.log(makeGameTable(gameTitle, gameInfo).toString())
   console.log(makeTracksTable(tracks).toString())
-  console.log(`vgmpfdl: Saving to ${dirPath}`)
+  reportDestDir(dirPath)
 
   // Start saving files.
   mkdirp(dirPath, (err) => {
