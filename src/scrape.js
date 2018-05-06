@@ -68,7 +68,7 @@ export const downloadVGMPFUrl = async (url) => {
     .reduce((acc, curr) => ({ ...acc, ...curr }), {})
 
   const gameTitle = $gameTitle.text().trim()
-  const gameImage = $('a.image img', $gameBox).attr('src').trim()
+  const gameImage = absUrl($('a.image img', $gameBox).attr('src').trim())
   const dirName = makeDirName(gameTitle, gameInfo)
   const dirPath = `${process.cwd()}/${dirName}/`
 
@@ -84,6 +84,7 @@ export const downloadVGMPFUrl = async (url) => {
     }
   })
 
+  // Download all tracks.
   for (const track of tracks) {
     const ext = getExtension(track.url)
     const fn = makeFileName(track.trackN, track.title, ext)
@@ -91,4 +92,10 @@ export const downloadVGMPFUrl = async (url) => {
     await downloadFile(track.url, dest)
     reportDownload(dest)
   }
+
+  // Download the cover image to 'folder.ext'.
+  const ext = getExtension(gameImage)
+  const dest = `${dirPath}folder.${ext}`
+  await downloadFile(gameImage, dest)
+  reportDownload(dest)
 }
