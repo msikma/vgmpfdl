@@ -35,13 +35,17 @@ export const downloadVGMPFUrl = async (url) => {
 
   // Retrieve the list of tracks.
   const $content = $('#mw-content-text')
+
+  // Determine which columns we have. Also define a quick helper function for getting the right column index.
+  const cols = $('.wikitable tr:first-child th').map((n, el) => $(el).text().trim()).get()
+  const findCol = str => (cols.indexOf(str) + 1)
   const tracks = $('.wikitable tr[itemtype="http://schema.org/MusicComposition"]', $content).map((n, el) => {
-    const trackN = $('td:first-child', el).text().trim()
-    const title = $('td:nth-child(2)', el).text().trim()
-    const composer = $('td:nth-child(3)', el).text().trim()
-    const length = $('td:nth-child(4)', el).text().trim()
-    const url = absUrl($('td:nth-child(6) a', el).attr('href').trim())
-    const album = $('td:nth-child(6) span[itemprop="inAlbum"] meta[itemprop="name"]', el).attr('content').trim()
+    const trackN = $(`td:nth-child(${findCol('#')})`, el).text().trim()
+    const title = $(`td:nth-child(${findCol('Title')})`, el).text().trim()
+    const composer = $(`td:nth-child(${findCol('Composer')})`, el).text().trim()
+    const length = $(`td:nth-child(${findCol('Length')})`, el).text().trim()
+    const url = absUrl($(`td:nth-child(${findCol('Download')}) a`, el).attr('href').trim())
+    const album = $(`td:nth-child(${findCol('Download')}) span[itemprop="inAlbum"] meta[itemprop="name"]`, el).attr('content').trim()
     return {
       trackN,
       title,

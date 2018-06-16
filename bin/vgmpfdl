@@ -17,7 +17,8 @@ const args = { ...parsed, urls: parsed.url }
 // Fire up the main application.
 require('babel-polyfill')
 
-/* Uncomment for testing from ./src
+/*
+// Uncomment for testing from ./src
 
 require('babel-register')({
   "presets": ["env"],
