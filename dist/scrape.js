@@ -43,7 +43,7 @@ var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
 
 var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url) {
-    var html, $, $content, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirName, dirPath, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, track, _ext, fn, _dest, ext, dest;
+    var html, $, $content, cols, findCol, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirName, dirPath, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, track, _ext, fn, _dest, ext, dest;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -59,13 +59,24 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             // Retrieve the list of tracks.
 
             $content = $('#mw-content-text');
+
+            // Determine which columns we have. Also define a quick helper function for getting the right column index.
+
+            cols = $('.wikitable tr:first-child th').map(function (n, el) {
+              return $(el).text().trim();
+            }).get();
+
+            findCol = function findCol(str) {
+              return cols.indexOf(str) + 1;
+            };
+
             tracks = $('.wikitable tr[itemtype="http://schema.org/MusicComposition"]', $content).map(function (n, el) {
-              var trackN = $('td:first-child', el).text().trim();
-              var title = $('td:nth-child(2)', el).text().trim();
-              var composer = $('td:nth-child(3)', el).text().trim();
-              var length = $('td:nth-child(4)', el).text().trim();
-              var url = (0, _util.absUrl)($('td:nth-child(6) a', el).attr('href').trim());
-              var album = $('td:nth-child(6) span[itemprop="inAlbum"] meta[itemprop="name"]', el).attr('content').trim();
+              var trackN = $('td:nth-child(' + findCol('#') + ')', el).text().trim();
+              var title = $('td:nth-child(' + findCol('Title') + ')', el).text().trim();
+              var composer = $('td:nth-child(' + findCol('Composer') + ')', el).text().trim();
+              var length = $('td:nth-child(' + findCol('Length') + ')', el).text().trim();
+              var url = (0, _util.absUrl)($('td:nth-child(' + findCol('Download') + ') a', el).attr('href').trim());
+              var album = $('td:nth-child(' + findCol('Download') + ') span[itemprop="inAlbum"] meta[itemprop="name"]', el).attr('content').trim();
               return {
                 trackN: trackN,
                 title: title,
@@ -122,12 +133,12 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context.prev = 22;
+            _context.prev = 24;
             _iterator = tracks[Symbol.iterator]();
 
-          case 24:
+          case 26:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 35;
+              _context.next = 37;
               break;
             }
 
@@ -135,68 +146,68 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             _ext = (0, _util.getExtension)(track.url);
             fn = (0, _util.makeFileName)(track.trackN, track.title, _ext);
             _dest = '' + dirPath + fn;
-            _context.next = 31;
+            _context.next = 33;
             return (0, _download.downloadFile)(track.url, _dest);
 
-          case 31:
+          case 33:
             (0, _util.reportDownload)(_dest);
 
-          case 32:
+          case 34:
             _iteratorNormalCompletion = true;
-            _context.next = 24;
-            break;
-
-          case 35:
-            _context.next = 41;
+            _context.next = 26;
             break;
 
           case 37:
-            _context.prev = 37;
-            _context.t0 = _context['catch'](22);
+            _context.next = 43;
+            break;
+
+          case 39:
+            _context.prev = 39;
+            _context.t0 = _context['catch'](24);
             _didIteratorError = true;
             _iteratorError = _context.t0;
 
-          case 41:
-            _context.prev = 41;
-            _context.prev = 42;
+          case 43:
+            _context.prev = 43;
+            _context.prev = 44;
 
             if (!_iteratorNormalCompletion && _iterator.return) {
               _iterator.return();
             }
 
-          case 44:
-            _context.prev = 44;
+          case 46:
+            _context.prev = 46;
 
             if (!_didIteratorError) {
-              _context.next = 47;
+              _context.next = 49;
               break;
             }
 
             throw _iteratorError;
 
-          case 47:
-            return _context.finish(44);
-
-          case 48:
-            return _context.finish(41);
-
           case 49:
+            return _context.finish(46);
+
+          case 50:
+            return _context.finish(43);
+
+          case 51:
 
             // Download the cover image to 'folder.ext'.
             ext = (0, _util.getExtension)(gameImage);
             dest = dirPath + 'folder.' + ext;
-            _context.next = 53;
+            _context.next = 55;
             return (0, _download.downloadFile)(gameImage, dest);
 
-          case 53:
+          case 55:
             (0, _util.reportDownload)(dest);
 
-          case 54:
+          case 56:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[22, 37, 41, 49], [42,, 44, 48]]);
+    }, _callee, undefined, [[24, 39, 43, 51], [44,, 46, 50]]);
   }));
 
   return function downloadVGMPFUrl(_x) {
