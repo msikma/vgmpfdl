@@ -21,12 +21,15 @@ import {
 } from './util'
 
 // Valid URL we can scrape.
-const VGMPF_URL = new RegExp('vgmpf\\.com/Wiki/index\\.php\\?title=(.+?)', 'i')
+const VGMPF_URL = [
+  new RegExp('vgmpf\\.com/Wiki/index\\.php\\?title=(.+?)', 'i'),
+  new RegExp('vgmpf\\.com/Wiki/index\\.php/(.+?)', 'i')
+]
 // Color of the header that contains the game title.
 const HEADER_COLOR = '#402070'
 
 export const isVGMPFUrl = (url) => (
-  VGMPF_URL.test(url)
+  VGMPF_URL.map(re => re.test(url)).indexOf(true) > -1
 )
 
 export const downloadVGMPFUrl = async (url) => {
