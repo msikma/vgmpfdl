@@ -33,12 +33,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */
 
 // Valid URL we can scrape.
-var VGMPF_URL = new RegExp('vgmpf\\.com/Wiki/index\\.php\\?title=(.+?)', 'i');
+var VGMPF_URL = [new RegExp('vgmpf\\.com/Wiki/index\\.php\\?title=(.+?)', 'i'), new RegExp('vgmpf\\.com/Wiki/index\\.php/(.+?)', 'i')];
 // Color of the header that contains the game title.
 var HEADER_COLOR = '#402070';
 
 var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
-  return VGMPF_URL.test(url);
+  return VGMPF_URL.map(function (re) {
+    return re.test(url);
+  }).indexOf(true) > -1;
 };
 
 var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
