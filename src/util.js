@@ -4,7 +4,7 @@
  */
 
 import sanitize from 'sanitize-filename'
-import Table from 'cli-table2'
+import Table from 'cli-table3'
 import chalk from 'chalk'
 
 const VGMPF_BASE = 'http://www.vgmpf.com'
