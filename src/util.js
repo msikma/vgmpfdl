@@ -4,7 +4,7 @@
  */
 
 import sanitize from 'sanitize-filename'
-import Table from 'cli-table2'
+import Table from 'cli-table3'
 import request from 'request'
 import chalk from 'chalk'
 

@@ -31,7 +31,7 @@
     "babel-polyfill": "^6.1.0",
     "chalk": "^2.3.1",
     "cheerio": "^1.0.0-rc.2",
-    "cli-table2": "msikma/cli-table2",
+    "cli-table3": "^0.5.0",
     "mkdirp": "^0.5.1",
     "request": "^2.85.0",
     "sanitize-filename": "^1.6.1"
