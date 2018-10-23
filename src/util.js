@@ -5,6 +5,7 @@
 
 import sanitize from 'sanitize-filename'
 import Table from 'cli-table2'
+import request from 'request'
 import chalk from 'chalk'
 
 const VGMPF_BASE = 'http://www.vgmpf.com'
@@ -90,7 +91,6 @@ export const makeTracksTable = (tracks) => {
   return table
 }
 
-
 // Headers similar to what a regular browser would send.
 export const browserHeaders = {
   'Accept-Language': 'en-US,en;q=0.9,ja;q=0.8,nl;q=0.7,de;q=0.6,es;q=0.5,it;q=0.4,pt;q=0.3',
@@ -113,7 +113,7 @@ export const requestURI = (url, headers = {}, etc = {}) => new Promise((resolve,
     { url, headers: { ...browserHeaders, ...(headers != null ? headers : {}) }, ...requestDefaults, ...etc },
     (err, res) => {
       if (err) return reject(err)
-      resolve(res.body)
+      resolve(res)
     }
   )
 ))

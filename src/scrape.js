@@ -5,7 +5,7 @@
 
 import cheerio from 'cheerio'
 import mkdirp from 'mkdirp'
-import requestURI from './util'
+import { requestURI } from './util'
 
 import { downloadFile } from './download'
 import {
