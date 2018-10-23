@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.makeTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.requestURI = exports.browserHeaders = exports.makeTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _sanitizeFilename = require('sanitize-filename');
 
@@ -12,6 +14,10 @@ var _sanitizeFilename2 = _interopRequireDefault(_sanitizeFilename);
 var _cliTable = require('cli-table2');
 
 var _cliTable2 = _interopRequireDefault(_cliTable);
+
+var _request = require('request');
+
+var _request2 = _interopRequireDefault(_request);
 
 var _chalk = require('chalk');
 
@@ -122,4 +128,30 @@ var makeTracksTable = exports.makeTracksTable = function makeTracksTable(tracks)
   }
 
   return table;
+};
+
+// Headers similar to what a regular browser would send.
+var browserHeaders = exports.browserHeaders = {
+  'Accept-Language': 'en-US,en;q=0.9,ja;q=0.8,nl;q=0.7,de;q=0.6,es;q=0.5,it;q=0.4,pt;q=0.3',
+  'Upgrade-Insecure-Requests': '1',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'Cache-Control': 'max-age=0',
+  'Connection': 'keep-alive'
+  // Default settings for requests.
+};var requestDefaults = {
+  gzip: true
+
+  // Requests a URI using our specified browser headers as defaults.
+  // This function has a higher chance of being permitted by the source site
+  // since it's designed to look like a normal browser request rather than a script.
+};var requestURI = exports.requestURI = function requestURI(url) {
+  var headers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var etc = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  return new Promise(function (resolve, reject) {
+    return (0, _request2.default)(_extends({ url: url, headers: _extends({}, browserHeaders, headers != null ? headers : {}) }, requestDefaults, etc), function (err, res) {
+      if (err) return reject(err);
+      resolve(res);
+    });
+  });
 };

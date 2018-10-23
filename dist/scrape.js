@@ -7,10 +7,6 @@ exports.downloadVGMPFUrl = exports.isVGMPFUrl = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _requestAsBrowser = require('requestAsBrowser');
-
-var _requestAsBrowser2 = _interopRequireDefault(_requestAsBrowser);
-
 var _cheerio = require('cheerio');
 
 var _cheerio2 = _interopRequireDefault(_cheerio);
@@ -19,9 +15,9 @@ var _mkdirp = require('mkdirp');
 
 var _mkdirp2 = _interopRequireDefault(_mkdirp);
 
-var _download = require('./download');
-
 var _util = require('./util');
+
+var _download = require('./download');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,7 +48,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _requestAsBrowser2.default)(url);
+            return (0, _util.requestURI)(url);
 
           case 2:
             html = _context.sent;
