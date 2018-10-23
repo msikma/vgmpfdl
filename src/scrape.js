@@ -3,9 +3,9 @@
  * Copyright © 2018, Michiel Sikma
  */
 
-import requestAsBrowser from 'requestAsBrowser'
 import cheerio from 'cheerio'
 import mkdirp from 'mkdirp'
+import requestURI from './util'
 
 import { downloadFile } from './download'
 import {
@@ -33,7 +33,7 @@ export const isVGMPFUrl = (url) => (
 )
 
 export const downloadVGMPFUrl = async (url) => {
-  const html = await requestAsBrowser(url)
+  const html = await requestURI(url)
   const $ = cheerio.load(html.body)
 
   // Retrieve the list of tracks.

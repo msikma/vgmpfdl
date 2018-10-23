@@ -13,6 +13,8 @@
   "author": "Michiel Sikma <michiel@sikma.org>",
   "license": "SEE LICENSE IN <readme.md>",
   "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "babel-core": "^6.0.0",
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-class-properties": "^6.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.1.0",
@@ -32,7 +34,6 @@
     "cli-table2": "msikma/cli-table2",
     "mkdirp": "^0.5.1",
     "request": "^2.85.0",
-    "requestAsBrowser": "msikma/requestAsBrowser",
     "sanitize-filename": "^1.6.1"
   }
 }
