@@ -65,7 +65,7 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
   const findCol = str => (cols.indexOf(str) + 1)
   const $tables = $('.wikitable', $content)
   // See if we have a list of recording groups.
-  const groups = $tables.get().length > 1 ? ols.find(ol => ol.length === $tables.get().length) : []
+  const groups = $tables.get().length > 1 && ols.length ? ols.find(ol => ol.length === $tables.get().length) : []
 
   const trackGroups = $tables.get().map((table, n) => {
     const group = groups.length >= n + 1 ? groups[n] : ''

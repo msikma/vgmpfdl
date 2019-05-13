@@ -100,7 +100,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             $tables = $('.wikitable', $content);
             // See if we have a list of recording groups.
 
-            groups = $tables.get().length > 1 ? ols.find(function (ol) {
+            groups = $tables.get().length > 1 && ols.length ? ols.find(function (ol) {
               return ol.length === $tables.get().length;
             }) : [];
             trackGroups = $tables.get().map(function (table, n) {
