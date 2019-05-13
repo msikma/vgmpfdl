@@ -39,7 +39,7 @@ export const reportDestDir = (dir) => (
 /**
  * Returns the name of the directory we'll download the files to.
  */
-export const makeDirName = (title, info, composers) => {
+export const makeDirName = (title, info, composers, group) => {
   const segments = [title]
   if (info.platform && info.year) {
     segments.push(`(${info.platform}, ${info.year})`)
@@ -50,11 +50,14 @@ export const makeDirName = (title, info, composers) => {
   else if (info.year) {
     segments.push(`(${info.year})`)
   }
-  if (composers) {
+  if (composers && composers.length) {
     segments.push(composers.join(', '))
   }
   if (info.developer) {
     segments.push(`[${info.developer}]`)
+  }
+  if (group) {
+    segments.push(`[${group.replace(/^\s?-\s?/, '')}]`)
   }
   return sanitize(segments.join(' '))
 }
@@ -69,7 +72,7 @@ export const formatKey = (str) => (
 /**
  * Make a table containing basic game information.
  */
-export const makeGameTable = (title, info) => {
+export const makeGameTable = (title, info, composers) => {
   const table = new Table()
   table.push(
     { [chalk.red('Title')]: title },
@@ -77,18 +80,38 @@ export const makeGameTable = (title, info) => {
     ...(info.year ? [{ [chalk.red('Year')]: info.year }] : []),
     ...(info.developer ? [{ [chalk.red('Developer')]: info.developer }] : [])
   )
+  if (composers) {
+    table.push({ [chalk.red(`Composer${composers.length !== 1 ? `s` : ``}`)]: composers.join(', ') })
+  }
   return table
 }
 
 /**
  * Make a table out of the tracks we found.
  */
-export const makeTracksTable = (tracks) => {
-  const table = new Table({ head: ['#', 'Title', 'Composer', 'Length'] })
-  for (const track of tracks) {
-    table.push([track.trackN, track.title, track.composer, track.length])
+export const logTracksTable = (trackGroups) => {
+  const allTables = []
+  for (const group of trackGroups) {
+    const table = new Table({ head: ['#', 'Title', 'Composer', 'Length'] })
+    for (const track of group.tracks) {
+      table.push([track.trackN, track.title, track.composer, track.length])
+    }
+    allTables.push([group.group, table.toString()])
   }
-  return table
+  // Now log all tables with a group header.
+  // This is a pretty big hack, because we can't span columns with cli-table.
+  for (const table of allTables) {
+    const groupName = table[0]
+    const tableString = table[1]
+    // Here's the big hack to get the size of the table.
+    const rowLength = tableString.split('\n')[0].replace(/[^┌─┐┬]/g, '')
+    if (groupName) {
+      const tableObj = new Table({ colWidths: [rowLength.length - 2] })
+      tableObj.push([chalk.yellow(groupName.replace(/^\s?-\s?/, ''))])
+      console.log(tableObj.toString())
+    }
+    console.log(tableString)
+  }
 }
 
 // Headers similar to what a regular browser would send.

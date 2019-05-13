@@ -11,6 +11,7 @@ const parser = new ArgumentParser({
   description: package.description
 })
 parser.addArgument('url', { help: 'URL(s) to scrape and download files from.', nargs: '*', defaultValue: '' })
+parser.addArgument('--composer', { help: 'Adds composer name(s) to output directory name.', action: 'storeTrue', defaultValue: false })
 const parsed = parser.parseArgs()
 const args = { ...parsed, urls: parsed.url }
 
@@ -19,11 +20,11 @@ require('babel-polyfill')
 
 /*
 // Uncomment for testing from ./src
-
 require('babel-register')({
   "presets": ["env"],
   "plugins": ["transform-class-properties", "transform-object-rest-spread"]
 })
 require('../src/index').run(args)
 */
+
 require('../dist/index').run(args)

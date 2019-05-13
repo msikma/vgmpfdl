@@ -14,13 +14,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var run = exports.run = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(args) {
-    var urls, exitCode, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, url;
+    var urls, composer, exitCode, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, url;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            urls = args.urls;
+            urls = args.urls, composer = args.composer;
             exitCode = 0;
 
 
@@ -50,7 +50,7 @@ var run = exports.run = function () {
             }
 
             _context.next = 14;
-            return (0, _scrape.downloadVGMPFUrl)(url);
+            return (0, _scrape.downloadVGMPFUrl)(url, composer);
 
           case 14:
             _context.next = 18;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestURI = exports.browserHeaders = exports.makeTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -63,7 +63,7 @@ var reportDestDir = exports.reportDestDir = function reportDestDir(dir) {
 /**
  * Returns the name of the directory we'll download the files to.
  */
-var makeDirName = exports.makeDirName = function makeDirName(title, info, composers) {
+var makeDirName = exports.makeDirName = function makeDirName(title, info, composers, group) {
   var segments = [title];
   if (info.platform && info.year) {
     segments.push('(' + info.platform + ', ' + info.year + ')');
@@ -72,11 +72,14 @@ var makeDirName = exports.makeDirName = function makeDirName(title, info, compos
   } else if (info.year) {
     segments.push('(' + info.year + ')');
   }
-  if (composers) {
+  if (composers && composers.length) {
     segments.push(composers.join(', '));
   }
   if (info.developer) {
     segments.push('[' + info.developer + ']');
+  }
+  if (group) {
+    segments.push('[' + group.replace(/^\s?-\s?/, '') + ']');
   }
   return (0, _sanitizeFilename2.default)(segments.join(' '));
 };
@@ -91,27 +94,58 @@ var formatKey = exports.formatKey = function formatKey(str) {
 /**
  * Make a table containing basic game information.
  */
-var makeGameTable = exports.makeGameTable = function makeGameTable(title, info) {
+var makeGameTable = exports.makeGameTable = function makeGameTable(title, info, composers) {
   var table = new _cliTable2.default();
   table.push.apply(table, [_defineProperty({}, _chalk2.default.red('Title'), title)].concat(_toConsumableArray(info.platform ? [_defineProperty({}, _chalk2.default.red('Platform'), info.platform)] : []), _toConsumableArray(info.year ? [_defineProperty({}, _chalk2.default.red('Year'), info.year)] : []), _toConsumableArray(info.developer ? [_defineProperty({}, _chalk2.default.red('Developer'), info.developer)] : [])));
+  if (composers) {
+    table.push(_defineProperty({}, _chalk2.default.red('Composer' + (composers.length !== 1 ? 's' : '')), composers.join(', ')));
+  }
   return table;
 };
 
 /**
  * Make a table out of the tracks we found.
  */
-var makeTracksTable = exports.makeTracksTable = function makeTracksTable(tracks) {
-  var table = new _cliTable2.default({ head: ['#', 'Title', 'Composer', 'Length'] });
+var logTracksTable = exports.logTracksTable = function logTracksTable(trackGroups) {
+  var allTables = [];
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
 
   try {
-    for (var _iterator = tracks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var track = _step.value;
+    for (var _iterator = trackGroups[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var group = _step.value;
 
-      table.push([track.trackN, track.title, track.composer, track.length]);
+      var table = new _cliTable2.default({ head: ['#', 'Title', 'Composer', 'Length'] });
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = group.tracks[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var track = _step3.value;
+
+          table.push([track.trackN, track.title, track.composer, track.length]);
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      allTables.push([group.group, table.toString()]);
     }
+    // Now log all tables with a group header.
+    // This is a pretty big hack, because we can't span columns with cli-table.
   } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;
@@ -127,7 +161,39 @@ var makeTracksTable = exports.makeTracksTable = function makeTracksTable(tracks)
     }
   }
 
-  return table;
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = allTables[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var table = _step2.value;
+
+      var groupName = table[0];
+      var tableString = table[1];
+      // Here's the big hack to get the size of the table.
+      var rowLength = tableString.split('\n')[0].replace(/[^┌─┐┬]/g, '');
+      if (groupName) {
+        var tableObj = new _cliTable2.default({ colWidths: [rowLength.length - 2] });
+        tableObj.push([_chalk2.default.yellow(groupName.replace(/^\s?-\s?/, ''))]);
+        console.log(tableObj.toString());
+      }
+      console.log(tableString);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
 };
 
 // Headers similar to what a regular browser would send.
