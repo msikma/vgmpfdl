@@ -5,7 +5,7 @@
 
 import cheerio from 'cheerio'
 import mkdirp from 'mkdirp'
-import { requestURI, reportNoBox } from './util'
+import { requestURI, reportNoBox, reportGroup } from './util'
 
 import { downloadFile } from './download'
 import {
@@ -70,12 +70,21 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
   // Determine which columns we have. Also define a quick helper function for getting the right column index.
   const cols = $('.wikitable tr:first-child th').map((n, el) => $(el).text().trim()).get()
   const findCol = str => (cols.indexOf(str) + 1)
-  const $tables = $('.wikitable', $content)
+  const $allTables = $('.wikitable', $content)
+  // We're looking for only the tables that have music in them.
+  // There only way to filter them out is by looking at the <th> tags inside.
+  const $tables = $allTables.get().map(table => {
+    const ths = $('th', table).get().map(th => $(th).text().toLowerCase())
+    if (ths.indexOf('#') === 0 && ths.indexOf('title') > 1 || ths.indexOf('composer') > 2 || ths.indexOf('listen') > 3) {
+      return table
+    }
+    return null
+  }).filter(t => t)
   // See if we have a list of recording groups.
-  const groups = $tables.get().length > 1 && ols.length ? ols.find(ol => ol.length === $tables.get().length) : []
+  const groups = $tables.length > 1 && ols.length ? ols.find(ol => ol.length === $tables.length) : []
 
-  const trackGroups = $tables.get().map((table, n) => {
-    const group = groups.length >= n + 1 ? groups[n] : ''
+  const trackGroups = $tables.map((table, n) => {
+    const group = groups && groups.length >= n + 1 ? groups[n] : ''
     const $trs = $('tr[itemtype="http://schema.org/MusicComposition"]', table)
     const tracks = $trs.map((_, el) => {
       const trackN = $(`td:nth-child(${findCol('#')})`, el).text().trim()
@@ -130,6 +139,7 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
     const dirName = makeDirName(gameTitle, gameInfo, showComposers ? composers : [], group.group)
     const dirPath = `${dirPathBase}${dirName}`
     reportDestDir(dirPath)
+    reportGroup(group.group)
     mkdirp(dirPath, pathError)
     for (const track of group.tracks) {
       // Retry each track a number of times.

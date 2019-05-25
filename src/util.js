@@ -25,6 +25,10 @@ export const getExtension = (url) => (
   url.split('.').pop()
 )
 
+export const reportGroup = (type) => {
+  console.log(`vgmpfdl: Getting tracks for group: ${chalk.yellow(type)}`)
+}
+
 // Reports that a file has been downloaded.
 export const reportDownload = (dest) => {
   const destShort = dest.split('/').pop()

@@ -57,7 +57,7 @@ var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
 
 var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, showComposers) {
-    var html, $, $content, $ols, ols, cols, findCol, $tables, groups, trackGroups, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirPathBase, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group, dirName, dirPath, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, track, a, _ext, fn, _dest, ext, dest;
+    var html, $, $content, $ols, ols, cols, findCol, $allTables, $tables, groups, trackGroups, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirPathBase, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group, dirName, dirPath, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, track, a, _ext, fn, _dest, ext, dest;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -103,14 +103,28 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
               return cols.indexOf(str) + 1;
             };
 
-            $tables = $('.wikitable', $content);
+            $allTables = $('.wikitable', $content);
+            // We're looking for only the tables that have music in them.
+            // There only way to filter them out is by looking at the <th> tags inside.
+
+            $tables = $allTables.get().map(function (table) {
+              var ths = $('th', table).get().map(function (th) {
+                return $(th).text().toLowerCase();
+              });
+              if (ths.indexOf('#') === 0 && ths.indexOf('title') > 1 || ths.indexOf('composer') > 2 || ths.indexOf('listen') > 3) {
+                return table;
+              }
+              return null;
+            }).filter(function (t) {
+              return t;
+            });
             // See if we have a list of recording groups.
 
-            groups = $tables.get().length > 1 && ols.length ? ols.find(function (ol) {
-              return ol.length === $tables.get().length;
+            groups = $tables.length > 1 && ols.length ? ols.find(function (ol) {
+              return ol.length === $tables.length;
             }) : [];
-            trackGroups = $tables.get().map(function (table, n) {
-              var group = groups.length >= n + 1 ? groups[n] : '';
+            trackGroups = $tables.map(function (table, n) {
+              var group = groups && groups.length >= n + 1 ? groups[n] : '';
               var $trs = $('tr[itemtype="http://schema.org/MusicComposition"]', table);
               var tracks = $trs.map(function (_, el) {
                 var trackN = $('td:nth-child(' + findCol('#') + ')', el).text().trim();
@@ -174,12 +188,12 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context.prev = 26;
+            _context.prev = 27;
             _iterator = trackGroups[Symbol.iterator]();
 
-          case 28:
+          case 29:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 88;
+              _context.next = 90;
               break;
             }
 
@@ -188,156 +202,157 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             dirPath = '' + dirPathBase + dirName;
 
             (0, _util.reportDestDir)(dirPath);
+            (0, _util.reportGroup)(group.group);
             (0, _mkdirp2.default)(dirPath, pathError);
             _iteratorNormalCompletion2 = true;
             _didIteratorError2 = false;
             _iteratorError2 = undefined;
-            _context.prev = 37;
+            _context.prev = 39;
             _iterator2 = group.tracks[Symbol.iterator]();
 
-          case 39:
+          case 41:
             if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context.next = 62;
+              _context.next = 64;
               break;
             }
 
             track = _step2.value;
             a = 0;
 
-          case 42:
+          case 44:
             if (!(a < 5)) {
-              _context.next = 59;
+              _context.next = 61;
               break;
             }
 
             _ext = (0, _util.getExtension)(track.url);
             fn = (0, _util.makeFileName)(track.trackN, track.title, _ext);
             _dest = dirPath + '/' + fn;
-            _context.prev = 46;
-            _context.next = 49;
+            _context.prev = 48;
+            _context.next = 51;
             return (0, _download.downloadFile)(track.url, _dest);
 
-          case 49:
+          case 51:
             (0, _util.reportDownload)(_dest);
-            return _context.abrupt('break', 59);
+            return _context.abrupt('break', 61);
 
-          case 53:
-            _context.prev = 53;
-            _context.t0 = _context['catch'](46);
+          case 55:
+            _context.prev = 55;
+            _context.t0 = _context['catch'](48);
 
             (0, _util.reportErr)(_context.t0, _dest, a, 5);
 
-          case 56:
+          case 58:
             ++a;
-            _context.next = 42;
+            _context.next = 44;
             break;
 
-          case 59:
+          case 61:
             _iteratorNormalCompletion2 = true;
-            _context.next = 39;
-            break;
-
-          case 62:
-            _context.next = 68;
+            _context.next = 41;
             break;
 
           case 64:
-            _context.prev = 64;
-            _context.t1 = _context['catch'](37);
+            _context.next = 70;
+            break;
+
+          case 66:
+            _context.prev = 66;
+            _context.t1 = _context['catch'](39);
             _didIteratorError2 = true;
             _iteratorError2 = _context.t1;
 
-          case 68:
-            _context.prev = 68;
-            _context.prev = 69;
+          case 70:
+            _context.prev = 70;
+            _context.prev = 71;
 
             if (!_iteratorNormalCompletion2 && _iterator2.return) {
               _iterator2.return();
             }
 
-          case 71:
-            _context.prev = 71;
+          case 73:
+            _context.prev = 73;
 
             if (!_didIteratorError2) {
-              _context.next = 74;
+              _context.next = 76;
               break;
             }
 
             throw _iteratorError2;
 
-          case 74:
-            return _context.finish(71);
-
-          case 75:
-            return _context.finish(68);
-
           case 76:
+            return _context.finish(73);
+
+          case 77:
+            return _context.finish(70);
+
+          case 78:
 
             // Download the cover image to 'folder.ext'.
             ext = (0, _util.getExtension)(gameImage);
             dest = dirPath + '/folder.' + ext;
 
             if (imageIsNoBox(gameImage)) {
-              _context.next = 84;
+              _context.next = 86;
               break;
             }
 
-            _context.next = 81;
+            _context.next = 83;
             return (0, _download.downloadFile)(gameImage, dest);
 
-          case 81:
+          case 83:
             (0, _util.reportDownload)(dest);
-            _context.next = 85;
+            _context.next = 87;
             break;
 
-          case 84:
+          case 86:
             (0, _util.reportNoBox)();
 
-          case 85:
+          case 87:
             _iteratorNormalCompletion = true;
-            _context.next = 28;
-            break;
-
-          case 88:
-            _context.next = 94;
+            _context.next = 29;
             break;
 
           case 90:
-            _context.prev = 90;
-            _context.t2 = _context['catch'](26);
+            _context.next = 96;
+            break;
+
+          case 92:
+            _context.prev = 92;
+            _context.t2 = _context['catch'](27);
             _didIteratorError = true;
             _iteratorError = _context.t2;
 
-          case 94:
-            _context.prev = 94;
-            _context.prev = 95;
+          case 96:
+            _context.prev = 96;
+            _context.prev = 97;
 
             if (!_iteratorNormalCompletion && _iterator.return) {
               _iterator.return();
             }
 
-          case 97:
-            _context.prev = 97;
+          case 99:
+            _context.prev = 99;
 
             if (!_didIteratorError) {
-              _context.next = 100;
+              _context.next = 102;
               break;
             }
 
             throw _iteratorError;
 
-          case 100:
-            return _context.finish(97);
-
-          case 101:
-            return _context.finish(94);
-
           case 102:
+            return _context.finish(99);
+
+          case 103:
+            return _context.finish(96);
+
+          case 104:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[26, 90, 94, 102], [37, 64, 68, 76], [46, 53], [69,, 71, 75], [95,, 97, 101]]);
+    }, _callee, undefined, [[27, 92, 96, 104], [39, 66, 70, 78], [48, 55], [71,, 73, 77], [97,, 99, 103]]);
   }));
 
   return function downloadVGMPFUrl(_x, _x2) {

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportErr = exports.reportNoBox = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportErr = exports.reportNoBox = exports.reportDownload = exports.reportGroup = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -47,6 +47,10 @@ var absUrl = exports.absUrl = function absUrl(url) {
 // Returns the file extension of a URL.
 var getExtension = exports.getExtension = function getExtension(url) {
   return url.split('.').pop();
+};
+
+var reportGroup = exports.reportGroup = function reportGroup(type) {
+  console.log('vgmpfdl: Getting tracks for group: ' + _chalk2.default.yellow(type));
 };
 
 // Reports that a file has been downloaded.
