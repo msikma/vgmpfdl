@@ -1,6 +1,10 @@
-**A simple script that downloads albums from VGMPF**
+## `vgmpfdl`
 
-VGMPF has video game music music downloads, but usually doesn't provide full album downloads. Since it's annoying to have to manually `wget` every track, I built this small script to do it quickly.
+A simple script that downloads albums from [VGMPF](http://www.vgmpf.com/Wiki/index.php?title=Main_Page).
+
+The VGMPF (Video Game Music Preservation Foundation) has video game music music downloads, but usually doesn't provide full album downloads. Since it's annoying to have to manually `wget` every track, I built this small script to do it quickly.
+
+Some albums have multiple recordings, especially DOS games that support multiple sound cards. For example, [Zorro (DOS)](http://www.vgmpf.com/Wiki/index.php?title=Zorro_(DOS)). If the article contains **a numbered list with the names of the recording options**, these options will be added to the output directory names. In that case each recording will also be a separate download rather than one large album.
 
 ## Usage
 
