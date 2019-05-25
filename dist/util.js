@@ -11,7 +11,7 @@ var _sanitizeFilename = require('sanitize-filename');
 
 var _sanitizeFilename2 = _interopRequireDefault(_sanitizeFilename);
 
-var _cliTable = require('cli-table2');
+var _cliTable = require('cli-table3');
 
 var _cliTable2 = _interopRequireDefault(_cliTable);
 
