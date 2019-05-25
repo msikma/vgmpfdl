@@ -57,7 +57,7 @@ export const reportErr = (err, dest, tryA, tryZ) => {
 
 // Reports the destination directory.
 export const reportDestDir = (dir) => (
-  console.log(`vgmpfdl: Saving to ${chalk.red(dir)}`)
+  console.log(`vgmpfdl: Saving to ${chalk.green(dir)}`)
 )
 
 /**

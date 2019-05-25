@@ -80,7 +80,7 @@ var reportErr = exports.reportErr = function reportErr(err, dest, tryA, tryZ) {
 
 // Reports the destination directory.
 var reportDestDir = exports.reportDestDir = function reportDestDir(dir) {
-  return console.log('vgmpfdl: Saving to ' + _chalk2.default.red(dir));
+  return console.log('vgmpfdl: Saving to ' + _chalk2.default.green(dir));
 };
 
 /**
