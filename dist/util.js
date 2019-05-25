@@ -74,7 +74,7 @@ var reportErr = exports.reportErr = function reportErr(err, dest, tryA, tryZ) {
     var code = err.code;
     var name = err.name;
     var stack = err.stack;
-    console.log('' + (name ? 'Name: ' + name + '; ' : '') + (code ? 'Code: ' + code + '; ' : '') + (stack ? 'Stack follows:\n' + stack : ''));
+    console.log('' + (name ? 'Name: ' + name + '; ' : '') + (code ? 'Code: ' + code + '; ' : '') + (stack ? 'Details follow:\n' + stack : ''));
   }
 };
 

@@ -1,7 +1,7 @@
 {
   "name": "vgmpfdl",
   "description": "Downloads VGMPF (Video Game Music Preservation Foundation) albums",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "private": false,
   "homepage": "https://github.com/msikma/vgmpfdl",
   "main": "src/index.js",

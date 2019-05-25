@@ -51,7 +51,7 @@ export const reportErr = (err, dest, tryA, tryZ) => {
     const code = err.code
     const name = err.name
     const stack = err.stack
-    console.log(`${name ? `Name: ${name}; ` : ''}${code ? `Code: ${code}; ` : ''}${stack ? `Stack follows:\n${stack}` : ''}`)
+    console.log(`${name ? `Name: ${name}; ` : ''}${code ? `Code: ${code}; ` : ''}${stack ? `Details follow:\n${stack}` : ''}`)
   }
 }
 

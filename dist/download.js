@@ -29,6 +29,9 @@ var downloadFile = exports.downloadFile = function downloadFile(src, dest) {
     destStream.on('finish', function () {
       return resolve();
     });
+    destStream.on('error', function (err) {
+      return reject(err);
+    });
     (0, _request2.default)(src).pipe(destStream);
   });
 };
