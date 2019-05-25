@@ -17,7 +17,8 @@ import {
   makeGameTable,
   logTracksTable,
   reportDestDir,
-  reportDownload
+  reportDownload,
+  reportErr
 } from './util'
 
 // Valid URL we can scrape.
@@ -125,11 +126,20 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
     reportDestDir(dirPath)
     mkdirp(dirPath, pathError)
     for (const track of group.tracks) {
-      const ext = getExtension(track.url)
-      const fn = makeFileName(track.trackN, track.title, ext)
-      const dest = `${dirPath}/${fn}`
-      await downloadFile(track.url, dest)
-      reportDownload(dest)
+      // Retry each track a number of times.
+      for (let a = 0; a < 5; ++a) {
+        const ext = getExtension(track.url)
+        const fn = makeFileName(track.trackN, track.title, ext)
+        const dest = `${dirPath}/${fn}`
+        try {
+          await downloadFile(track.url, dest)
+          reportDownload(dest)
+          break
+        }
+        catch (err) {
+          reportErr(err, dest, a, 5)
+        }
+      }
     }
 
     // Download the cover image to 'folder.ext'.

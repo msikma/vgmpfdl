@@ -31,6 +31,21 @@ export const reportDownload = (dest) => {
   console.log(`vgmpfdl: Downloaded file: ${chalk.red(destShort)}`)
 }
 
+// Reports that an error occurred while downloading.
+export const reportErr = (err, dest, tryA, tryZ) => {
+  const destShort = dest.split('/').pop()
+  console.log(`vgmpfdl: Error occurred while downloading: ${chalk.red(destShort)} (retrying: #${tryA + 1}/${tryZ})`)
+  if (err === true || err == null) {
+    console.log('Unknown error.')
+  }
+  else if (err) {
+    const code = err.code
+    const name = err.name
+    const stack = err.stack
+    console.log(`${name ? `Name: ${name}; ` : ''}${code ? `Code: ${code}; ` : ''}${stack ? `Stack follows:\n${stack}` : ''}`)
+  }
+}
+
 // Reports the destination directory.
 export const reportDestDir = (dir) => (
   console.log(`vgmpfdl: Saving to ${chalk.red(dir)}`)

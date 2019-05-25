@@ -12,7 +12,7 @@ import request from 'request'
 export const downloadFile = (src, dest) => (
   new Promise((resolve, reject) => {
     const destStream = fs.createWriteStream(dest, { flags: 'w', encoding: null })
-    destStream.on('finish', resolve)
+    destStream.on('finish', () => resolve())
     request(src).pipe(destStream)
   })
 )
