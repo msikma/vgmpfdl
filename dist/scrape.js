@@ -202,7 +202,9 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             dirPath = '' + dirPathBase + dirName;
 
             (0, _util.reportDestDir)(dirPath);
-            (0, _util.reportGroup)(group.group);
+            if (group && group.group) {
+              (0, _util.reportGroup)(group.group);
+            }
             (0, _mkdirp2.default)(dirPath, pathError);
             _iteratorNormalCompletion2 = true;
             _didIteratorError2 = false;

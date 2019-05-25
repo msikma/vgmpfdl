@@ -139,7 +139,9 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
     const dirName = makeDirName(gameTitle, gameInfo, showComposers ? composers : [], group.group)
     const dirPath = `${dirPathBase}${dirName}`
     reportDestDir(dirPath)
-    reportGroup(group.group)
+    if (group && group.group) {
+      reportGroup(group.group)
+    }
     mkdirp(dirPath, pathError)
     for (const track of group.tracks) {
       // Retry each track a number of times.
