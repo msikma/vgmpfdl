@@ -51,7 +51,7 @@ var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
 
 var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, showComposers) {
-    var html, $, $content, $ols, ols, cols, findCol, $tables, groups, trackGroups, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirPathBase, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group, dirName, dirPath, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, track, _ext, fn, _dest, ext, dest;
+    var html, $, $content, $ols, ols, cols, findCol, $tables, groups, trackGroups, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirPathBase, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group, dirName, dirPath, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, track, a, _ext, fn, _dest, ext, dest;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -173,7 +173,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
 
           case 28:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 72;
+              _context.next = 84;
               break;
             }
 
@@ -191,115 +191,136 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
 
           case 39:
             if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context.next = 50;
+              _context.next = 62;
               break;
             }
 
             track = _step2.value;
+            a = 0;
+
+          case 42:
+            if (!(a < 5)) {
+              _context.next = 59;
+              break;
+            }
+
             _ext = (0, _util.getExtension)(track.url);
             fn = (0, _util.makeFileName)(track.trackN, track.title, _ext);
             _dest = dirPath + '/' + fn;
-            _context.next = 46;
+            _context.prev = 46;
+            _context.next = 49;
             return (0, _download.downloadFile)(track.url, _dest);
 
-          case 46:
+          case 49:
             (0, _util.reportDownload)(_dest);
+            return _context.abrupt('break', 59);
 
-          case 47:
+          case 53:
+            _context.prev = 53;
+            _context.t0 = _context['catch'](46);
+
+            (0, _util.reportErr)(_context.t0, _dest, a, 5);
+
+          case 56:
+            ++a;
+            _context.next = 42;
+            break;
+
+          case 59:
             _iteratorNormalCompletion2 = true;
             _context.next = 39;
             break;
 
-          case 50:
-            _context.next = 56;
+          case 62:
+            _context.next = 68;
             break;
 
-          case 52:
-            _context.prev = 52;
-            _context.t0 = _context['catch'](37);
+          case 64:
+            _context.prev = 64;
+            _context.t1 = _context['catch'](37);
             _didIteratorError2 = true;
-            _iteratorError2 = _context.t0;
+            _iteratorError2 = _context.t1;
 
-          case 56:
-            _context.prev = 56;
-            _context.prev = 57;
+          case 68:
+            _context.prev = 68;
+            _context.prev = 69;
 
             if (!_iteratorNormalCompletion2 && _iterator2.return) {
               _iterator2.return();
             }
 
-          case 59:
-            _context.prev = 59;
+          case 71:
+            _context.prev = 71;
 
             if (!_didIteratorError2) {
-              _context.next = 62;
+              _context.next = 74;
               break;
             }
 
             throw _iteratorError2;
 
-          case 62:
-            return _context.finish(59);
+          case 74:
+            return _context.finish(71);
 
-          case 63:
-            return _context.finish(56);
+          case 75:
+            return _context.finish(68);
 
-          case 64:
+          case 76:
 
             // Download the cover image to 'folder.ext'.
             ext = (0, _util.getExtension)(gameImage);
             dest = dirPath + '/folder.' + ext;
-            _context.next = 68;
+            _context.next = 80;
             return (0, _download.downloadFile)(gameImage, dest);
 
-          case 68:
+          case 80:
             (0, _util.reportDownload)(dest);
 
-          case 69:
+          case 81:
             _iteratorNormalCompletion = true;
             _context.next = 28;
             break;
 
-          case 72:
-            _context.next = 78;
+          case 84:
+            _context.next = 90;
             break;
 
-          case 74:
-            _context.prev = 74;
-            _context.t1 = _context['catch'](26);
+          case 86:
+            _context.prev = 86;
+            _context.t2 = _context['catch'](26);
             _didIteratorError = true;
-            _iteratorError = _context.t1;
+            _iteratorError = _context.t2;
 
-          case 78:
-            _context.prev = 78;
-            _context.prev = 79;
+          case 90:
+            _context.prev = 90;
+            _context.prev = 91;
 
             if (!_iteratorNormalCompletion && _iterator.return) {
               _iterator.return();
             }
 
-          case 81:
-            _context.prev = 81;
+          case 93:
+            _context.prev = 93;
 
             if (!_didIteratorError) {
-              _context.next = 84;
+              _context.next = 96;
               break;
             }
 
             throw _iteratorError;
 
-          case 84:
-            return _context.finish(81);
+          case 96:
+            return _context.finish(93);
 
-          case 85:
-            return _context.finish(78);
+          case 97:
+            return _context.finish(90);
 
-          case 86:
+          case 98:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[26, 74, 78, 86], [37, 52, 56, 64], [57,, 59, 63], [79,, 81, 85]]);
+    }, _callee, undefined, [[26, 86, 90, 98], [37, 64, 68, 76], [46, 53], [69,, 71, 75], [91,, 93, 97]]);
   }));
 
   return function downloadVGMPFUrl(_x, _x2) {

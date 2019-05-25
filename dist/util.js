@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportErr = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -53,6 +53,20 @@ var getExtension = exports.getExtension = function getExtension(url) {
 var reportDownload = exports.reportDownload = function reportDownload(dest) {
   var destShort = dest.split('/').pop();
   console.log('vgmpfdl: Downloaded file: ' + _chalk2.default.red(destShort));
+};
+
+// Reports that an error occurred while downloading.
+var reportErr = exports.reportErr = function reportErr(err, dest, tryA, tryZ) {
+  var destShort = dest.split('/').pop();
+  console.log('vgmpfdl: Error occurred while downloading: ' + _chalk2.default.red(destShort) + ' (retrying: #' + (tryA + 1) + '/' + tryZ + ')');
+  if (err === true || err == null) {
+    console.log('Unknown error.');
+  } else if (err) {
+    var code = err.code;
+    var name = err.name;
+    var stack = err.stack;
+    console.log('' + (name ? 'Name: ' + name + '; ' : '') + (code ? 'Code: ' + code + '; ' : '') + (stack ? 'Stack follows:\n' + stack : ''));
+  }
 };
 
 // Reports the destination directory.

@@ -26,7 +26,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var downloadFile = exports.downloadFile = function downloadFile(src, dest) {
   return new Promise(function (resolve, reject) {
     var destStream = _fs2.default.createWriteStream(dest, { flags: 'w', encoding: null });
-    destStream.on('finish', resolve);
+    destStream.on('finish', function () {
+      return resolve();
+    });
     (0, _request2.default)(src).pipe(destStream);
   });
 };
