@@ -31,6 +31,11 @@ export const reportDownload = (dest) => {
   console.log(`vgmpfdl: Downloaded file: ${chalk.red(destShort)}`)
 }
 
+// Reports that this album has no box cover or was never released in a box.
+export const reportNoBox = () => {
+  console.log(`vgmpfdl: Skipping box cover: album has no box image or was never released in a box`)
+}
+
 // Reports that an error occurred while downloading.
 export const reportErr = (err, dest, tryA, tryZ) => {
   const destShort = dest.split('/').pop()

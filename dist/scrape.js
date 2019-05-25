@@ -43,6 +43,12 @@ var pathError = function pathError(err) {
   }
 };
 
+// Returns whether the box image is the standard 'no box' image.
+// </Wiki/images/thumb/5/53/NoBox.png/250px-NoBox.png>
+var imageIsNoBox = function imageIsNoBox(url) {
+  return url.indexOf('250px-NoBox') > -1 || url.indexOf('NoBox.png') > -1;
+};
+
 var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
   return VGMPF_URL.map(function (re) {
     return re.test(url);
@@ -173,7 +179,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
 
           case 28:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 84;
+              _context.next = 88;
               break;
             }
 
@@ -270,57 +276,68 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             // Download the cover image to 'folder.ext'.
             ext = (0, _util.getExtension)(gameImage);
             dest = dirPath + '/folder.' + ext;
-            _context.next = 80;
+
+            if (imageIsNoBox(gameImage)) {
+              _context.next = 84;
+              break;
+            }
+
+            _context.next = 81;
             return (0, _download.downloadFile)(gameImage, dest);
 
-          case 80:
-            (0, _util.reportDownload)(dest);
-
           case 81:
+            (0, _util.reportDownload)(dest);
+            _context.next = 85;
+            break;
+
+          case 84:
+            (0, _util.reportNoBox)();
+
+          case 85:
             _iteratorNormalCompletion = true;
             _context.next = 28;
             break;
 
-          case 84:
-            _context.next = 90;
+          case 88:
+            _context.next = 94;
             break;
 
-          case 86:
-            _context.prev = 86;
+          case 90:
+            _context.prev = 90;
             _context.t2 = _context['catch'](26);
             _didIteratorError = true;
             _iteratorError = _context.t2;
 
-          case 90:
-            _context.prev = 90;
-            _context.prev = 91;
+          case 94:
+            _context.prev = 94;
+            _context.prev = 95;
 
             if (!_iteratorNormalCompletion && _iterator.return) {
               _iterator.return();
             }
 
-          case 93:
-            _context.prev = 93;
+          case 97:
+            _context.prev = 97;
 
             if (!_didIteratorError) {
-              _context.next = 96;
+              _context.next = 100;
               break;
             }
 
             throw _iteratorError;
 
-          case 96:
-            return _context.finish(93);
+          case 100:
+            return _context.finish(97);
 
-          case 97:
-            return _context.finish(90);
+          case 101:
+            return _context.finish(94);
 
-          case 98:
+          case 102:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[26, 86, 90, 98], [37, 64, 68, 76], [46, 53], [69,, 71, 75], [91,, 93, 97]]);
+    }, _callee, undefined, [[26, 90, 94, 102], [37, 64, 68, 76], [46, 53], [69,, 71, 75], [95,, 97, 101]]);
   }));
 
   return function downloadVGMPFUrl(_x, _x2) {

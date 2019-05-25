@@ -5,7 +5,7 @@
 
 import cheerio from 'cheerio'
 import mkdirp from 'mkdirp'
-import { requestURI } from './util'
+import { requestURI, reportNoBox } from './util'
 
 import { downloadFile } from './download'
 import {
@@ -35,6 +35,12 @@ const pathError = (err) => {
     console.log(`vgmpfdl: error: Could not create path`)
     process.exit(1)
   }
+}
+
+// Returns whether the box image is the standard 'no box' image.
+// </Wiki/images/thumb/5/53/NoBox.png/250px-NoBox.png>
+const imageIsNoBox = (url) => {
+  return url.indexOf('250px-NoBox') > -1 || url.indexOf('NoBox.png') > -1
 }
 
 export const isVGMPFUrl = (url) => (
@@ -145,7 +151,12 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
     // Download the cover image to 'folder.ext'.
     const ext = getExtension(gameImage)
     const dest = `${dirPath}/folder.${ext}`
-    await downloadFile(gameImage, dest)
-    reportDownload(dest)
+    if (!imageIsNoBox(gameImage)) {
+      await downloadFile(gameImage, dest)
+      reportDownload(dest)
+    }
+    else {
+      reportNoBox()
+    }
   }
 }

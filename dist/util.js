@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportErr = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
+exports.requestURI = exports.browserHeaders = exports.logTracksTable = exports.makeGameTable = exports.formatKey = exports.makeDirName = exports.reportDestDir = exports.reportErr = exports.reportNoBox = exports.reportDownload = exports.getExtension = exports.absUrl = exports.makeFileName = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -53,6 +53,11 @@ var getExtension = exports.getExtension = function getExtension(url) {
 var reportDownload = exports.reportDownload = function reportDownload(dest) {
   var destShort = dest.split('/').pop();
   console.log('vgmpfdl: Downloaded file: ' + _chalk2.default.red(destShort));
+};
+
+// Reports that this album has no box cover or was never released in a box.
+var reportNoBox = exports.reportNoBox = function reportNoBox() {
+  console.log('vgmpfdl: Skipping box cover: album has no box image or was never released in a box');
 };
 
 // Reports that an error occurred while downloading.
