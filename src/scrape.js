@@ -47,7 +47,7 @@ export const isVGMPFUrl = (url) => (
   VGMPF_URL.map(re => re.test(url)).indexOf(true) > -1
 )
 
-export const downloadVGMPFUrl = async (url, showComposers) => {
+export const downloadVGMPFUrl = async (url, showComposers, dryRun) => {
   const html = await requestURI(url)
   const $ = cheerio.load(html.body)
 
@@ -60,7 +60,7 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
   // If we find an ordered list with the same amount of items as the track tables we've found,
   // we'll assume that this ordered list contains the various different chips.
   const $ols = $('ol', $content)
-  // Produces e.g. 
+  // Produces e.g.
   //    [ [ '- Gravis UltraSound (using original patch set)',
   //        '- Gravis UltraSound (using "Pro Patches Lite" v1.60 )',
   //        '- Roland SoundCanvas (General MIDI / Wave Blaster)',
@@ -133,6 +133,12 @@ export const downloadVGMPFUrl = async (url, showComposers) => {
 
   console.log(makeGameTable(gameTitle, gameInfo, composers).toString())
   logTracksTable(trackGroups)
+
+  // If we're only displaying information, exit here before downloading.
+  if (dryRun) {
+    console.log('Exiting without downloading anything (--dry-run).')
+    return
+  }
 
   // Download all tracks. Let's be nice and do it one at a time.
   for (const group of trackGroups) {

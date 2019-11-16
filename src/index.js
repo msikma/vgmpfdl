@@ -6,7 +6,7 @@
 import { isVGMPFUrl, downloadVGMPFUrl } from './scrape'
 
 export const run = async (args) => {
-  const { urls, composer } = args
+  const { urls, composer, dryRun } = args
   let exitCode = 0
 
   if (urls.length === 0) {
@@ -17,7 +17,7 @@ export const run = async (args) => {
   try {
     for (const url of urls) {
       if (isVGMPFUrl(url)) {
-        await downloadVGMPFUrl(url, composer)
+        await downloadVGMPFUrl(url, composer, dryRun)
       }
       else {
         console.log(`vgmpfdl: error: not a recognized URL scheme: ${url}`)

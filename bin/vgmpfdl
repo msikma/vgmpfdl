@@ -12,6 +12,7 @@ const parser = new ArgumentParser({
 })
 parser.addArgument('url', { help: 'URL(s) to scrape and download files from.', nargs: '*', defaultValue: '' })
 parser.addArgument('--composer', { help: 'Adds composer name(s) to output directory name.', action: 'storeTrue', defaultValue: false })
+parser.addArgument('--dry-run', { dest: 'dryRun', help: 'Retrieves information but does not download.', action: 'storeTrue', defaultValue: false })
 const parsed = parser.parseArgs()
 const args = { ...parsed, urls: parsed.url }
 
