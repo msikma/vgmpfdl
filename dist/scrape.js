@@ -56,7 +56,7 @@ var isVGMPFUrl = exports.isVGMPFUrl = function isVGMPFUrl(url) {
 };
 
 var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, showComposers) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, showComposers, dryRun) {
     var html, $, $content, $ols, ols, cols, findCol, $allTables, $tables, groups, trackGroups, tracks, composerNum, composers, $gameTitle, $gameBox, gameInfo, gameTitle, gameImage, dirPathBase, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group, dirName, dirPath, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, track, a, _ext, fn, _dest, ext, dest;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -81,7 +81,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             // we'll assume that this ordered list contains the various different chips.
 
             $ols = $('ol', $content);
-            // Produces e.g. 
+            // Produces e.g.
             //    [ [ '- Gravis UltraSound (using original patch set)',
             //        '- Gravis UltraSound (using "Pro Patches Lite" v1.60 )',
             //        '- Roland SoundCanvas (General MIDI / Wave Blaster)',
@@ -184,16 +184,28 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             console.log((0, _util.makeGameTable)(gameTitle, gameInfo, composers).toString());
             (0, _util.logTracksTable)(trackGroups);
 
+            // If we're only displaying information, exit here before downloading.
+
+            if (!dryRun) {
+              _context.next = 27;
+              break;
+            }
+
+            console.log('Exiting without downloading anything (--dry-run).');
+            return _context.abrupt('return');
+
+          case 27:
+
             // Download all tracks. Let's be nice and do it one at a time.
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context.prev = 27;
+            _context.prev = 30;
             _iterator = trackGroups[Symbol.iterator]();
 
-          case 29:
+          case 32:
             if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 90;
+              _context.next = 93;
               break;
             }
 
@@ -209,155 +221,155 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
             _iteratorNormalCompletion2 = true;
             _didIteratorError2 = false;
             _iteratorError2 = undefined;
-            _context.prev = 39;
+            _context.prev = 42;
             _iterator2 = group.tracks[Symbol.iterator]();
 
-          case 41:
+          case 44:
             if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context.next = 64;
+              _context.next = 67;
               break;
             }
 
             track = _step2.value;
             a = 0;
 
-          case 44:
+          case 47:
             if (!(a < 5)) {
-              _context.next = 61;
+              _context.next = 64;
               break;
             }
 
             _ext = (0, _util.getExtension)(track.url);
             fn = (0, _util.makeFileName)(track.trackN, track.title, _ext);
             _dest = dirPath + '/' + fn;
-            _context.prev = 48;
-            _context.next = 51;
+            _context.prev = 51;
+            _context.next = 54;
             return (0, _download.downloadFile)(track.url, _dest);
 
-          case 51:
+          case 54:
             (0, _util.reportDownload)(_dest);
-            return _context.abrupt('break', 61);
+            return _context.abrupt('break', 64);
 
-          case 55:
-            _context.prev = 55;
-            _context.t0 = _context['catch'](48);
+          case 58:
+            _context.prev = 58;
+            _context.t0 = _context['catch'](51);
 
             (0, _util.reportErr)(_context.t0, _dest, a, 5);
 
-          case 58:
-            ++a;
-            _context.next = 44;
-            break;
-
           case 61:
-            _iteratorNormalCompletion2 = true;
-            _context.next = 41;
+            ++a;
+            _context.next = 47;
             break;
 
           case 64:
-            _context.next = 70;
+            _iteratorNormalCompletion2 = true;
+            _context.next = 44;
             break;
 
-          case 66:
-            _context.prev = 66;
-            _context.t1 = _context['catch'](39);
+          case 67:
+            _context.next = 73;
+            break;
+
+          case 69:
+            _context.prev = 69;
+            _context.t1 = _context['catch'](42);
             _didIteratorError2 = true;
             _iteratorError2 = _context.t1;
 
-          case 70:
-            _context.prev = 70;
-            _context.prev = 71;
+          case 73:
+            _context.prev = 73;
+            _context.prev = 74;
 
             if (!_iteratorNormalCompletion2 && _iterator2.return) {
               _iterator2.return();
             }
 
-          case 73:
-            _context.prev = 73;
+          case 76:
+            _context.prev = 76;
 
             if (!_didIteratorError2) {
-              _context.next = 76;
+              _context.next = 79;
               break;
             }
 
             throw _iteratorError2;
 
-          case 76:
+          case 79:
+            return _context.finish(76);
+
+          case 80:
             return _context.finish(73);
 
-          case 77:
-            return _context.finish(70);
-
-          case 78:
+          case 81:
 
             // Download the cover image to 'folder.ext'.
             ext = (0, _util.getExtension)(gameImage);
             dest = dirPath + '/folder.' + ext;
 
             if (imageIsNoBox(gameImage)) {
-              _context.next = 86;
+              _context.next = 89;
               break;
             }
 
-            _context.next = 83;
+            _context.next = 86;
             return (0, _download.downloadFile)(gameImage, dest);
 
-          case 83:
+          case 86:
             (0, _util.reportDownload)(dest);
-            _context.next = 87;
+            _context.next = 90;
             break;
 
-          case 86:
+          case 89:
             (0, _util.reportNoBox)();
 
-          case 87:
-            _iteratorNormalCompletion = true;
-            _context.next = 29;
-            break;
-
           case 90:
-            _context.next = 96;
+            _iteratorNormalCompletion = true;
+            _context.next = 32;
             break;
 
-          case 92:
-            _context.prev = 92;
-            _context.t2 = _context['catch'](27);
+          case 93:
+            _context.next = 99;
+            break;
+
+          case 95:
+            _context.prev = 95;
+            _context.t2 = _context['catch'](30);
             _didIteratorError = true;
             _iteratorError = _context.t2;
 
-          case 96:
-            _context.prev = 96;
-            _context.prev = 97;
+          case 99:
+            _context.prev = 99;
+            _context.prev = 100;
 
             if (!_iteratorNormalCompletion && _iterator.return) {
               _iterator.return();
             }
 
-          case 99:
-            _context.prev = 99;
+          case 102:
+            _context.prev = 102;
 
             if (!_didIteratorError) {
-              _context.next = 102;
+              _context.next = 105;
               break;
             }
 
             throw _iteratorError;
 
-          case 102:
+          case 105:
+            return _context.finish(102);
+
+          case 106:
             return _context.finish(99);
 
-          case 103:
-            return _context.finish(96);
-
-          case 104:
+          case 107:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[27, 92, 96, 104], [39, 66, 70, 78], [48, 55], [71,, 73, 77], [97,, 99, 103]]);
+    }, _callee, undefined, [[30, 95, 99, 107], [42, 69, 73, 81], [51, 58], [74,, 76, 80], [100,, 102, 106]]);
   }));
 
-  return function downloadVGMPFUrl(_x, _x2) {
+  return function downloadVGMPFUrl(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
