@@ -3,7 +3,7 @@
  * Copyright © 2018, Michiel Sikma
  */
 
-import cheerio from 'cheerio'
+import * as cheerio from 'cheerio'
 import mkdirp from 'mkdirp'
 import { requestURI, reportNoBox, reportGroup } from './util'
 
