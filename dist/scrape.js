@@ -9,7 +9,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _cheerio = require('cheerio');
 
-var _cheerio2 = _interopRequireDefault(_cheerio);
+var cheerio = _interopRequireWildcard(_cheerio);
 
 var _mkdirp = require('mkdirp');
 
@@ -20,6 +20,8 @@ var _util = require('./util');
 var _download = require('./download');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -68,7 +70,7 @@ var downloadVGMPFUrl = exports.downloadVGMPFUrl = function () {
 
           case 2:
             html = _context.sent;
-            $ = _cheerio2.default.load(html.body);
+            $ = cheerio.load(html.body);
 
             // Retrieve the list of tracks.
 
